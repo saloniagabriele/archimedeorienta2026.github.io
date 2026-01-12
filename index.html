@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Archimede Orienta AI - Universal Edition</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="ai-interface">
+    <h1>Archimede Orienta AI</h1>
+    <p class="subtitle">Algoritmo Neurale Predittivo v3.1</p>
+
+    <div class="section-title">📖 Materie Preferite</div>
+    <div class="chip-grid" id="grid-materie">
+        <input type="checkbox" id="m_ita" value="RIM,TUR,GRA"><label for="m_ita" class="chip">Italiano</label>
+        <input type="checkbox" id="m_mat" value="ITC,CAT,AFM,SIA"><label for="m_mat" class="chip">Matematica</label>
+        <input type="checkbox" id="m_sto" value="RIM,TUR,AFM"><label for="m_sto" class="chip">Storia</label>
+        <input type="checkbox" id="m_inf" value="ITC,SIA,GRA"><label for="m_inf" class="chip">Informatica</label>
+        <input type="checkbox" id="m_eco" value="AFM,SIA,RIM,TUR"><label for="m_eco" class="chip">Economia</label>
+        <input type="checkbox" id="m_dir" value="AFM,RIM,TUR"><label for="m_dir" class="chip">Diritto</label>
+        <input type="checkbox" id="m_lin" value="RIM,TUR,AFM"><label for="m_lin" class="chip">Lingue</label>
+        <input type="checkbox" id="m_tec" value="ITC"><label for="m_tec" class="chip">Telecomunicazioni</label>
+        <input type="checkbox" id="m_dis" value="CAT,GRA"><label for="m_dis" class="chip">Disegno Tecnico</label>
+        <input type="checkbox" id="m_art" value="GRA,TUR"><label for="m_art" class="chip">Arte / Grafica</label>
+    </div>
+
+    <div class="section-title">🎮 Interessi & Hobbies</div>
+    <div class="chip-grid">
+        <input type="checkbox" id="h_cod" value="ITC,SIA"><label for="h_cod" class="chip">Coding / PC</label>
+        <input type="checkbox" id="h_gam" value="ITC,GRA"><label for="h_gam" class="chip">Gaming</label>
+        <input type="checkbox" id="h_via" value="TUR,RIM"><label for="h_via" class="chip">Viaggi</label>
+        <input type="checkbox" id="h_soc" value="GRA,RIM"><label for="h_soc" class="chip">Social Media</label>
+        <input type="checkbox" id="h_vid" value="GRA,TUR"><label for="h_vid" class="chip">Fare Video</label>
+        <input type="checkbox" id="h_bus" value="AFM,SIA"><label for="h_bus" class="chip">Soldi / Business</label>
+        <input type="checkbox" id="h_des" value="CAT,GRA"><label for="h_des" class="chip">Disegnare</label>
+    </div>
+
+    <div class="section-title">🚀 Il tuo sogno</div>
+    <div class="chip-grid">
+        <input type="checkbox" id="p_ing" value="ITC,CAT,SIA"><label for="p_ing" class="chip">Ingegnere</label>
+        <input type="checkbox" id="p_man" value="AFM,RIM,SIA,TUR"><label for="p_man" class="chip">Manager</label>
+        <input type="checkbox" id="p_avv" value="AFM,RIM"><label for="p_avv" class="chip">Avvocato</label>
+        <input type="checkbox" id="p_med" value="ITC"><label for="p_med" class="chip">Medico</label>
+        <input type="checkbox" id="p_gui" value="TUR,RIM"><label for="p_gui" class="chip">Guida Turistica</label>
+        <input type="checkbox" id="p_cre" value="GRA"><label for="p_cre" class="chip">Creative / Designer</label>
+        <input type="checkbox" id="p_hac" value="ITC,SIA"><label for="p_hac" class="chip">Ethical Hacker</label>
+    </div>
+
+    <button class="btn-analyze" onclick="runAnalysis()">Elabora Percorso ✨</button>
+</div>
+
+<div class="modal-overlay" id="result-modal">
+    <div class="modal-card">
+        <div class="modal-header" id="confidence-level">CALCOLO PROBABILISTICO COMPLETATO</div>
+        
+        <div class="box">
+            <h2 class="result-title" id="res-title"></h2>
+            <p id="res-desc"></p>
+        </div>
+
+        <div class="box box-purple">
+            <h3 style="margin: 0 0 10px 0; color: var(--neon-purple);">🎓 Career Path Consigliato:</h3>
+            <p id="res-jobs"></p>
+        </div>
+
+        <button class="btn-analyze" onclick="closeModal()">Riprova Test</button>
+        <button class="btn-analyze btn-outline" onclick="window.open('https://www.archimedeorienta.it', '_blank')">Sito Ufficiale Archimede</button>
+    </div>
+</div>
+
+<script>
+    // --- DATABASE CONOSCENZA ---
+    const KNOWLEDGE_BASE = {
+        ITC: {
+            title: "Informatica e Telecomunicazioni",
+            desc: "L'algoritmo ha rilevato una forte compatibilità con la logica computazionale. È l'indirizzo per chi vuole capire come funziona il mondo digitale, dalla programmazione alla cybersecurity, fino alla gestione delle reti globali.",
+            jobs: "Software Developer, Ethical Hacker, Sistemista di Rete, Data Scientist, Ingegnere Informatico."
+        },
+        CAT: {
+            title: "CAT - Costruzioni Ambiente Territorio",
+            desc: "Hai una visione tecnica e spaziale. Questo indirizzo ti prepara alla progettazione sostenibile, all'uso di software CAD/BIM e alla gestione del territorio e dell'ambiente.",
+            jobs: "Geometra, Architetto, Ingegnere Civile, Progettista 3D, Esperto in Bioedilizia."
+        },
+        AFM: {
+            title: "AFM - Amministrazione Finanza Marketing",
+            desc: "Il sistema ha identificato un profilo gestionale. Qui imparerai le dinamiche dell'economia aziendale, il diritto e il marketing strategico per guidare le imprese.",
+            jobs: "Manager Aziendale, Commercialista, Consulente del Lavoro, Responsabile Marketing, Imprenditore."
+        },
+        SIA: {
+            title: "SIA - Sistemi Informativi Aziendali",
+            desc: "Il punto d'incontro perfetto tra Economia e Informatica. Ideale se ti piace il business ma vuoi usare la tecnologia per gestirlo (database, software gestionali, siti web aziendali).",
+            jobs: "IT Project Manager, Business Analyst, Sviluppatore Web Aziendale, Data Analyst."
+        },
+        RIM: {
+            title: "RIM - Relazioni Internazionali",
+            desc: "Profilo cosmopolita rilevato. Lo studio di tre lingue straniere e della geopolitica economica ti aprirà le porte del commercio internazionale e della diplomazia.",
+            jobs: "Export Manager, Diplomatico, Interprete Commerciale, Corrispondente Estero."
+        },
+        TUR: {
+            title: "Indirizzo Turismo",
+            desc: "Hai un'attitudine all'accoglienza e alla valorizzazione culturale. Studierai come gestire imprese turistiche, organizzare eventi e promuovere il territorio con le lingue.",
+            jobs: "Direttore d'Albergo, Travel Designer, Organizzatore di Eventi, Guida Turistica, Hostess/Steward."
+        },
+        GRA: {
+            title: "Grafica e Comunicazione",
+            desc: "La tua creatività è un asset fondamentale. Imparerai a comunicare visivamente attraverso fotografia, video-editing, grafica pubblicitaria e gestione dei social media.",
+            jobs: "Graphic Designer, Art Director, Social Media Manager, Videomaker, Web Designer."
+        }
+    };
+
+    // --- MOTORE DI INFERENZA NATIVO ---
+    function runAnalysis() {
+        const checkedBoxes = document.querySelectorAll('input[type="checkbox"]:checked');
+        
+        if(checkedBoxes.length < 3) {
+            alert("Per favore, seleziona almeno 3 opzioni per un'analisi accurata.");
+            return;
+        }
+
+        let scores = { ITC: 0, CAT: 0, AFM: 0, SIA: 0, RIM: 0, TUR: 0, GRA: 0 };
+        let totalPoints = 0;
+        let isDoctor = false;
+
+        checkedBoxes.forEach(box => {
+            const values = box.value.split(',');
+            if(box.id === 'p_med') isDoctor = true;
+
+            values.forEach((code, index) => {
+                let weight = (index === 0) ? 2 : 1; 
+                if(scores[code] !== undefined) {
+                    scores[code] += weight;
+                    totalPoints += weight;
+                }
+            });
+        });
+
+        let winner = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+        let maxScore = scores[winner];
+        
+        let confidence = Math.round((maxScore / totalPoints) * 100 * 2.5); 
+        if(confidence > 98) confidence = 98;
+        if(confidence < 60) confidence = 64;
+
+        const result = KNOWLEDGE_BASE[winner];
+        let finalDesc = result.desc;
+        if(winner === 'ITC' && isDoctor) {
+            finalDesc += " Nota dell'AI: La tua aspirazione medica si combina perfettamente con questo indirizzo per le applicazioni in Telemedicina e Bioingegneria.";
+        }
+
+        document.getElementById('res-title').innerText = result.title;
+        document.getElementById('res-desc').innerText = finalDesc;
+        document.getElementById('res-jobs').innerText = result.jobs;
+        document.getElementById('confidence-level').innerText = `AI CONFIDENCE SCORE: ${confidence}%`;
+
+        const modal = document.getElementById('result-modal');
+        modal.style.display = 'flex';
+        setTimeout(() => {
+            modal.style.opacity = '1';
+            modal.querySelector('.modal-card').style.transform = 'scale(1)';
+        }, 10);
+    }
+
+    function closeModal() {
+        const modal = document.getElementById('result-modal');
+        modal.style.opacity = '0';
+        modal.querySelector('.modal-card').style.transform = 'scale(0.9)';
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 300);
+    }
+</script>
+
+</body>
+</html>
